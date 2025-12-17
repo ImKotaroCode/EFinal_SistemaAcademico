@@ -35,7 +35,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/api/notas/mis-notas").hasRole("ALUMNO")
 
-                        .requestMatchers("/api/notas/registrar").hasRole("DOCENTE")
+                        .requestMatchers("/api/notas/mis-notas").hasAuthority("ROLE_ALUMNO")
 
                         .anyRequest().authenticated()
                 );

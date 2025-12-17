@@ -48,8 +48,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 if (jwtUtil.validateToken(token, userDetails.getUsername())) {
 
                     var authorities = jwtUtil.extractRoles(token).stream()
+                            .filter(r -> r.startsWith("ROLE_"))
                             .map(SimpleGrantedAuthority::new)
-                            .collect(Collectors.toList());
+                            .toList();
 
                     var authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, authorities
@@ -59,7 +60,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
 
         filterChain.doFilter(request, response);

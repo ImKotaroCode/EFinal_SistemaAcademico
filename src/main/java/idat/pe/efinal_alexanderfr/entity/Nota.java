@@ -54,4 +54,13 @@ public class Nota {
     private LocalDateTime fechaRegistro;
 
 
+    @PrePersist
+    public void prePersist() {
+        if (fechaRegistro == null) fechaRegistro = LocalDateTime.now();
+
+        if (estado == null) {
+            estado = (nota != null && nota >= 11.0) ? EstadoNota.APROBADO : EstadoNota.DESAPROBADO;
+        }
+    }
+
 }
